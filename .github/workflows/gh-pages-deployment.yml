@@ -2,7 +2,7 @@ name: Deploy to github pages
 
 on:
   push:
-    brenches:
+    branches:
       - main
 
 jobs:
