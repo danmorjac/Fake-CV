@@ -6,6 +6,8 @@ jobs:
   rsync:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout files
+        uses: actions/checkout@v3
       - name: Action - rsync
         uses: up9cloud/action-rsync@v1.4
         env:
