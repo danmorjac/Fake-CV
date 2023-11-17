@@ -29,5 +29,5 @@ jobs:
           #     Si sólo quieres que rsync sincronice los archivos que han sido modificados, puedes usar la opción -u o --update. 
           #     Esta opción le dice a rsync que sólo sincronice los archivos que son más nuevos en el origen que en el destino.
           
-          ARGS_MORE: --no-perms --no-times --udpate
+          ARGS_MORE: --no-perms --no-times --update
           SOURCE: website/
