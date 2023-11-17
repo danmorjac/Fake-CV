@@ -1,4 +1,4 @@
-name: Deploy to Azure Apache
+name: Deploy to Azure Apache and Nginx
 
 on: workflow_dispatch
 
