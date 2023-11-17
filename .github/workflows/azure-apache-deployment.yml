@@ -6,7 +6,7 @@ jobs:
   rsync:
     runs-on: ubuntu-latest
     permissions:
-      contents: read-write-all
+      contents: write
     steps:
       - name: Checkout files
         uses: actions/checkout@v3
