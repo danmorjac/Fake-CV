@@ -20,7 +20,3 @@ jobs:
           TARGET: ${{ secrets.APACHE_TARGET }}
           ARGS: -avz --delete --exclude=/.git/ --exclude=/.github/
           SOURCE: website/
-
-          PRE_SCRIPT: |
-          echo start at: date -u
-          POST_SCRIPT: "echo done at: && date -u"
