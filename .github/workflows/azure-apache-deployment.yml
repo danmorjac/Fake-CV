@@ -19,9 +19,15 @@ jobs:
           
           # 1.  Usa la opción --no-perms de rsync: Esta opción le dice a rsync que no intente preservar los permisos.
           #     Esto puede ser útil si estás copiando archivos entre sistemas con diferentes esquemas de permisos.
-
+          #
           # 2.  Usa la opción --no-times de rsync: Esta opción le dice a rsync que no intente preservar los tiempos de modificación.
           #     Esto puede ser útil si el usuario que está ejecutando rsync no tiene permisos para cambiar los tiempos de los archivos o directorios.
+          #
+          # 3.  Por defecto, rsync verifica si los archivos en el origen y el destino son diferentes, y si lo son, los sincroniza. 
+          #     Esto incluye archivos que han sido modificados, así como archivos que existen en el origen pero no en el destino.
+          #
+          #     Si sólo quieres que rsync sincronice los archivos que han sido modificados, puedes usar la opción -u o --update. 
+          #     Esta opción le dice a rsync que sólo sincronice los archivos que son más nuevos en el origen que en el destino.
           
-          ARGS_MORE: --no-perms --no-times
+          ARGS_MORE: --no-perms --no-times --udpate
           SOURCE: website/
