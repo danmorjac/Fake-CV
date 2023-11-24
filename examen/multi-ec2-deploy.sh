@@ -22,10 +22,10 @@ crear_subred_y_ec2() {
   # Crear subred en la VPC
   AWS_ID_Subred=$(
     aws ec2 create-subnet \
-      --vpc-id $AWS_ID_VPC \
-      --cidr-block $cidr_block \
-      --output text \
-      --query 'Subnet.SubnetId'
+    --vpc-id $AWS_ID_VPC \
+    --cidr-block 192.168.0.0/20 \  # Ampliar el rango CIDR de la subred
+    --output text \
+    --query 'Subnet.SubnetId'
   )
 
   # Crear grupo de seguridad en la VPC
