@@ -3,25 +3,26 @@
 # Crear una VPC
 AWS_ID_VPC=$(
   aws ec2 create-vpc \
-    --cidr-block 192.168.1.0/24 \
+    --cidr-block 192.168.0.0/22 \
     --output text
 )
 
 # Asignar un nombre a la VPC
 aws ec2 create-tags \
   --resources $AWS_ID_VPC \
-  --tags Key=Name,Value=CRUsystemVPC
+  --tags Key=Name,Value=MiVPC
 
 # Función para crear una subred y una EC2 en esa subred
 crear_subred_y_ec2() {
   local nombre_subred=$1
   local cantidad_trabajadores=$2
+  local cidr_block=$3
 
   # Crear subred en la VPC
   AWS_ID_Subred=$(
     aws ec2 create-subnet \
       --vpc-id $AWS_ID_VPC \
-      --cidr-block 192.168.1.${RANDOM%255}/28 \
+      --cidr-block $cidr_block \
       --output text
   )
 
@@ -51,8 +52,8 @@ crear_subred_y_ec2() {
     --subnet-id $AWS_ID_Subred
 }
 
-# Crear subredes y EC2 para cada departamento
-crear_subred_y_ec2 "Ingenieria" 100
-crear_subred_y_ec2 "Desarrollo" 500
-crear_subred_y_ec2 "Mantenimiento" 20
-crear_subred_y_ec2 "Soporte" 250
+# Crear subredes y EC2 para cada red
+crear_subred_y_ec2 "Red1" 510 "192.168.0.0/23"
+crear_subred_y_ec2 "Red2" 254 "192.168.2.0/24"
+crear_subred_y_ec2 "Red3" 126 "192.168.3.0/25"
+crear_subred_y_ec2 "Red4" 30 "192.168.3.128/27"
