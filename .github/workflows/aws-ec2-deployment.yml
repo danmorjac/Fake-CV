@@ -1,4 +1,4 @@
-name: Deploy to an AWS S3 Bucket
+name: Deploy to an EC2 Instance
 
 on: workflow_dispatch
 
