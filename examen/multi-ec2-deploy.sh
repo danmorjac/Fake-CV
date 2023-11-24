@@ -46,10 +46,11 @@ crear_subred_y_ec2() {
     --cidr 0.0.0.0/0
 
   # Crear instancia EC2 en la subred con el grupo de seguridad
-  aws ec2 run-instances \
+aws ec2 run-instances \
     --image-id ami-050406429a71aaa64 \
     --count $cantidad_trabajadores \
     --instance-type t2.micro \
+    --key-name vokey \
     --region us-east-1 \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]" "ResourceType=subnet,Tags=[{Key=Name,Value=subnet-$nombre_subred}]" \
     --security-group-ids $AWS_ID_GrupoSeguridad \
