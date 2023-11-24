@@ -11,7 +11,7 @@ AWS_ID_VPC=$(
 # Asignar un nombre a la VPC
 aws ec2 create-tags \
   --resources $AWS_ID_VPC \
-  --tags Key=Name,Value=MiVPC
+  --tags Key=Name,Value=danipablo
 
 # Función para crear una subred y una EC2 en esa subred
 crear_subred_y_ec2() {
