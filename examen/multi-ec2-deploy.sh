@@ -47,16 +47,20 @@ crear_subred_y_ec2() {
 
   # Crear instancia EC2 en la subred con el grupo de seguridad
 aws ec2 run-instances \
-    --image-id ami-050406429a71aaa64 \
-    --count $cantidad_trabajadores \
-    --instance-type t2.micro \
-    --key-name vokey \
-    --region us-east-1 \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]" "ResourceType=subnet,Tags=[{Key=Name,Value=subnet-$nombre_subred}]" \
-    --security-group-ids $AWS_ID_GrupoSeguridad \
-    --subnet-id $AWS_ID_Subred \
-    --output text \
-    --query 'Instances[*].InstanceId'
+  --image-id ami-050406429a71aaa64 \
+  --count $cantidad_trabajadores \
+  --instance-type t2.micro \
+  --region us-east-1 \
+  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]" \
+  --security-group-ids $AWS_ID_GrupoSeguridad \
+  --subnet-id $AWS_ID_Subred \
+  --output text \
+  --query 'Instances[*].InstanceId'
+
+# Etiquetar la subred
+aws ec2 create-tags \
+  --resources $AWS_ID_Subred \
+  --tags Key=Name,Value=subnet-$nombre_subred
 }
 
 # Crear subredes y EC2 para cada red
