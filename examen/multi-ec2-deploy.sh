@@ -25,10 +25,10 @@ crear_subred_y_ec2() {
   # Crear subred en la VPC
   AWS_ID_Subred=$(
     aws ec2 create-subnet \
-    --vpc-id $AWS_ID_VPC \
-    --cidr-block 192.168.0.0/20 \  # Ampliar el rango CIDR de la subred
-    --output text \
-    --query 'Subnet.SubnetId'
+      --vpc-id $AWS_ID_VPC \
+      --cidr-block $cidr_block \
+      --output text \
+      --query 'Subnet.SubnetId'
   )
 
   # Crear grupo de seguridad en la VPC
@@ -49,21 +49,23 @@ crear_subred_y_ec2() {
     --cidr 0.0.0.0/0
 
   # Crear instancia EC2 en la subred con el grupo de seguridad
-aws ec2 run-instances \
-  --image-id ami-050406429a71aaa64 \
-  --count $cantidad_trabajadores \
-  --instance-type t2.micro \
-  --region us-east-1 \
-  --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]" \
-  --security-group-ids $AWS_ID_GrupoSeguridad \
-  --subnet-id $AWS_ID_Subred \
-  --output text \
-  --query 'Instances[*].InstanceId'
+  AWS_ID_Instancia=$(
+    aws ec2 run-instances \
+      --image-id ami-050406429a71aaa64 \
+      --count $cantidad_trabajadores \
+      --instance-type t2.micro \
+      --key-name vockey \
+      --region us-east-1 \
+      --subnet-id $AWS_ID_Subred \
+      --security-group-ids $AWS_ID_GrupoSeguridad \
+      --output text \
+      --query 'Instances[*].InstanceId'
+  )
 
-# Etiquetar la subred
-aws ec2 create-tags \
-  --resources $AWS_ID_Subred \
-  --tags Key=Name,Value=subnet-$nombre_subred
+  # Etiquetar la instancia
+  aws ec2 create-tags \
+    --resources $AWS_ID_Instancia \
+    --tags Key=Name,Value=ec2-$nombre_subred
 }
 
 # Crear subredes y EC2 para cada red
