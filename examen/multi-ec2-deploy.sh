@@ -52,7 +52,7 @@ crear_subred_y_ec2() {
     --instance-type t2.micro \
     --key-name tu-key-name \
     --region us-east-1 \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]","ResourceType=subnet,Tags=[{Key=Name,Value=subnet-$nombre_subred}]" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]" "ResourceType=subnet,Tags=[{Key=Name,Value=subnet-$nombre_subred}]" \
     --security-group-ids $AWS_ID_GrupoSeguridad \
     --subnet-id $AWS_ID_Subred \
     --output text \
