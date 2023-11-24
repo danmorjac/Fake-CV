@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Detener el script en caso de error
+set -e
+
 # Crear una VPC
 AWS_ID_VPC=$(
   aws ec2 create-vpc \
