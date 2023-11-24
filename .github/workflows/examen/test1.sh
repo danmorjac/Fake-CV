@@ -10,7 +10,7 @@ AWS_ID_VPC=$(
 # Asignar un nombre a la VPC
 aws ec2 create-tags \
   --resources $AWS_ID_VPC \
-  --tags Key=Name,Value=MiVPC
+  --tags Key=Name,Value=MiVPC-danipablo
 
 # Función para crear una subred y una EC2 en esa subred
 crear_subred_y_ec2() {
@@ -53,7 +53,7 @@ crear_subred_y_ec2() {
 }
 
 # Crear subredes y EC2 para cada red
-crear_subred_y_ec2 "Red1" 510 "192.168.0.0/23"
-crear_subred_y_ec2 "Red2" 254 "192.168.2.0/24"
-crear_subred_y_ec2 "Red3" 126 "192.168.3.0/25"
-crear_subred_y_ec2 "Red4" 30 "192.168.3.128/27"
+crear_subred_y_ec2 "Desarrollo" 510 "192.168.0.0/23"
+crear_subred_y_ec2 "Soporte" 254 "192.168.2.0/24"
+crear_subred_y_ec2 "Ingeniaria" 126 "192.168.3.0/25"
+crear_subred_y_ec2 "Mantenimiento" 30 "192.168.3.128/27"
