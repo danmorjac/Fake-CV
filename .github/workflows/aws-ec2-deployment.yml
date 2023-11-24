@@ -15,4 +15,9 @@ jobs:
           project_path: website
 
       - name: Rsync
-        run: rsync -av -e "ssh -i <(echo '${{ secrets.AWS_KEY }}') -vvv" dist/ ec2-user@54.92.215.93:/var/www/html/
+        run: |
+          echo "${{ secrets.AWS_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          rsync -av -e "ssh -i private_key.pem" dist/ ec2-user@54.92.215.93:/var/www/html/
+        env:
+          SSH_AUTH_SOCK: /dev/null
