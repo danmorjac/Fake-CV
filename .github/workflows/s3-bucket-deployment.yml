@@ -15,5 +15,5 @@ jobs:
           project_path: website
 
       - name: Upload built website to S3
-        run: aws s3 sync dist s3://${{ secrets.BUCKET_NAME }}/\
+        run: aws s3 sync dist s3://${{ secrets.BUCKET_NAME }}/
                --delete --exact-timestamps
