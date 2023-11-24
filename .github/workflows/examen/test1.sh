@@ -4,13 +4,14 @@
 AWS_ID_VPC=$(
   aws ec2 create-vpc \
     --cidr-block 192.168.0.0/22 \
-    --output text
+    --output text \
+    --query 'Vpc.VpcId'
 )
 
 # Asignar un nombre a la VPC
 aws ec2 create-tags \
   --resources $AWS_ID_VPC \
-  --tags Key=Name,Value=MiVPC-danipablo
+  --tags Key=Name,Value=MiVPC
 
 # Función para crear una subred y una EC2 en esa subred
 crear_subred_y_ec2() {
@@ -23,7 +24,8 @@ crear_subred_y_ec2() {
     aws ec2 create-subnet \
       --vpc-id $AWS_ID_VPC \
       --cidr-block $cidr_block \
-      --output text
+      --output text \
+      --query 'Subnet.SubnetId'
   )
 
   # Crear grupo de seguridad en la VPC
@@ -32,13 +34,16 @@ crear_subred_y_ec2() {
       --group-name "SecGroup$nombre_subred" \
       --description "Grupo de seguridad para $nombre_subred" \
       --vpc-id $AWS_ID_VPC \
-      --output text
+      --output text \
+      --query 'GroupId'
   )
 
   # Autorizar el tráfico SSH en el grupo de seguridad
   aws ec2 authorize-security-group-ingress \
     --group-id $AWS_ID_GrupoSeguridad \
-    --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 22, "ToPort": 22, "IpRanges": [{"CidrIp": "0.0.0.0/0", "Description": "Allow SSH"}]}]'
+    --protocol tcp \
+    --port 22 \
+    --cidr 0.0.0.0/0
 
   # Crear instancia EC2 en la subred con el grupo de seguridad
   aws ec2 run-instances \
@@ -49,7 +54,9 @@ crear_subred_y_ec2() {
     --region us-east-1 \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=ec2-$nombre_subred}]","ResourceType=subnet,Tags=[{Key=Name,Value=subnet-$nombre_subred}]" \
     --security-group-ids $AWS_ID_GrupoSeguridad \
-    --subnet-id $AWS_ID_Subred
+    --subnet-id $AWS_ID_Subred \
+    --output text \
+    --query 'Instances[*].InstanceId'
 }
 
 # Crear subredes y EC2 para cada red
