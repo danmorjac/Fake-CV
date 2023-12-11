@@ -1,0 +1,19 @@
+name: Deploy to an AWS S3 Bucket
+
+on: workflow_dispatch
+
+jobs:
+  rsync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v3
+
+      - name: Minify html, css and js files
+        uses: pabcrudel/static-site-optimizer@main
+        with:
+          project_path: website
+
+      - name: Upload built website to S3
+        run: aws s3 sync . s3://mydawbucket2/
+               --delete --exact-timestamps

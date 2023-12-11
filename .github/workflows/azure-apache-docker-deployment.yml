@@ -15,7 +15,7 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USER: ${{ secrets.USER }}
           KEY: ${{ secrets.KEY }}
-          TARGET: /home/danmorjac/apache-docker/
+          TARGET: /home/${{ secrets.USER }}/apache-docker/
           
           # 1.  Usa la opción --no-perms de rsync: Esta opción le dice a rsync que no intente preservar los permisos.
           #     Esto puede ser útil si estás copiando archivos entre sistemas con diferentes esquemas de permisos.

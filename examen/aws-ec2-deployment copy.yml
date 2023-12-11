@@ -1,0 +1,23 @@
+name: Deploy to an EC2 Instance
+
+on: workflow_dispatch
+
+jobs:
+  rsync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v3
+
+      - name: Add SSH key and update known hosts
+        run: |
+          echo "${{ secrets.AWS_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          ssh-keyscan -H 54.92.215.93 >> ~/.ssh/known_hosts
+        env:
+          SSH_AUTH_SOCK: /dev/null
+
+      - name: Rsync
+        run: rsync -av -e "ssh -i private_key.pem" website/ ec2-user@54.92.215.93:/var/www/html/
+        env:
+          SSH_AUTH_SOCK: /dev/null
