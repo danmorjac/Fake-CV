@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 name: Deploy to Azure Nginx Docker
 
 on: workflow_dispatch
@@ -26,32 +25,3 @@ jobs:
           
           ARGS_MORE: --no-perms --no-times 
           SOURCE: website/
-=======
-name: Deploy to Azure Nginx Docker
-
-on: workflow_dispatch
-
-jobs:
-  rsync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout files
-        uses: actions/checkout@v3
-
-      - name: Action - rsync
-        uses: up9cloud/action-rsync@master
-        env:
-          HOST: ${{ secrets.HOST }}
-          USER: ${{ secrets.USER }}
-          KEY: ${{ secrets.KEY }}
-          TARGET: /home/${{ secrets.USER }}/nginx-docker/
-          
-          # 1.  Usa la opción --no-perms de rsync: Esta opción le dice a rsync que no intente preservar los permisos.
-          #     Esto puede ser útil si estás copiando archivos entre sistemas con diferentes esquemas de permisos.
-          #
-          # 2.  Usa la opción --no-times de rsync: Esta opción le dice a rsync que no intente preservar los tiempos de modificación.
-          #     Esto puede ser útil si el usuario que está ejecutando rsync no tiene permisos para cambiar los tiempos de los archivos o directorios.
-          
-          ARGS_MORE: --no-perms --no-times 
-          SOURCE: website/
->>>>>>> aaea39fa35f273fa2dc4c1fffb9654c753847182
